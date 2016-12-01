@@ -2,34 +2,44 @@
 import gulp from 'gulp';
 import babel from 'gulp-babel';
 import del from 'del';
-import { exec } from 'child_process';
+import webpack from 'webpack-stream';
 import esLint from 'gulp-eslint';
+import webpackConfig from './webpack.config.babel';
 
 const paths = {
-    allSrcJs: 'src/**/*.js',
+    allSrcJs: 'src/**/*.js?(x)',
+    serverSrcJs: 'src/server/**/*.js?(x)',
+    sharedSrcJs: 'src/shared/**/*.js?(x)',
+    clientEntryPoint: 'src/client/app.js',
     gulpFile: 'gulpfile.babel.js',
-    libDir: 'lib'
+    webpackFile: 'webpack.config.babel.js',
+    libDir: 'lib',
+    distDir: 'dist',
 };
 
 gulp.task('clean', () => 
     del(paths.libDir)
 );
 gulp.task('build', ['lint', 'clean'], () => 
-    gulp.src(paths.allSrcJs)
+    gulp.src([
+        paths.allSrcJs,
+        paths.sharedSrcJs
+    ])
         .pipe(babel())
         .pipe(gulp.dest(paths.libDir))
 );
-gulp.task('main', ['build'], (callback) => {
-    exec(`node ${paths.libDir}`, (error, stdout) => {
-        console.log(stdout);
-        return callback(error);
-    });
-});
+gulp.task('main', ['build'], () => 
+    gulp.src(paths.clientEntryPoint)
+        .pipe(webpack(webpackConfig))
+        .pipe(gulp.dest(paths.distDir))
+);
 
 gulp.task('lint', () => 
     gulp.src([
         paths.allSrcJs,
-        paths.libDir
+        paths.sharedSrcJs,
+        paths.webpackFile,
+        paths.gulpFile
     ])
     .pipe(esLint())
     .pipe(esLint.format())
