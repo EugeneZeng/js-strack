@@ -1,6 +1,5 @@
-//index.js
-const Dog = require('Dog.js');
+import Dog from './Dog';
 
 const dog = new Dog('Toby');
 
-console.log(log.bark());
+console.log(dog.bark());

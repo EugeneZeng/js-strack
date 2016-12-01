@@ -1,11 +1,9 @@
-//Dog.js
-class Dog{
-    constructor(name){
-        this.name  = name;
+export default class {
+    constructor(name) {
+        this.name = name;
     }
     
-    bark(){
+    bark() {
         return `Wah wah, I am ${this.name}`;
     }
 }
-module.exports = Dog;
