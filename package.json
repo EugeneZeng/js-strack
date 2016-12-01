@@ -1,0 +1,25 @@
+{
+    "name": "js-strack",
+    "version": "1.0.0",
+    "description": "Step by step following \"js-stack-from-scratch\"",
+    "main": "app.js",
+    "repository": "https://github.com/EugeneZeng/js-strack.git",
+    "author": "Eugene.Zeng <eugene.zeng@gwtsz.net>",
+    "license": "MIT",
+    "scripts": {
+        "start": "gulp"
+    },
+    "babel": {
+        "presets": [
+            "latest"
+        ]
+    },
+    "dependencies": {
+        "babel": "^6.5.2"
+    },
+    "devDependencies": {
+        "babel-preset-latest": "^6.16.0",
+        "del": "^2.2.2",
+        "gulp-babel": "^6.1.2"
+    }
+}
